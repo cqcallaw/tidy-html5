@@ -2181,16 +2181,16 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
         if (AttrValueIs(attval, "inherit"))
             return;
 
-        /* TODO: support funciri */
-        ctmbstr const paintValues[] = {
-            "none", "currentColor", NULL};
-
         /* check paint datatypes
         see https://dev.w3.org/SVG/profiles/1.1F2/publish/painting.html#SpecifyingPaint
         */
         if (attrIsSVG_FILL(attval) || attrIsSVG_STROKE(attval))
         {
-            if (AttrValueIsAmong(attval, paintValues))
+            /* TODO: support funciri */
+            static ctmbstr const values[] = {
+                "none", "currentColor", NULL};
+
+            if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue(doc, node, attval);
             else
                 CheckColor(doc, node, attval);
@@ -2198,7 +2198,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_FILLRULE(attval))
         {
-            ctmbstr const values[] = {"nonzero", "evenodd", NULL};
+            static ctmbstr const values[] = {"nonzero", "evenodd", NULL};
 
             if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue( doc, node, attval );
@@ -2208,7 +2208,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_STROKEDASHARRAY(attval))
         {
-            ctmbstr const values[] = {"none", NULL};
+            static ctmbstr const values[] = {"none", NULL};
 
             if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue( doc, node, attval );
@@ -2220,7 +2220,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_STROKELINECAP(attval))
         {
-            ctmbstr const values[] = {"butt", "round", "square", NULL};
+            static ctmbstr const values[] = {"butt", "round", "square", NULL};
 
             if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue( doc, node, attval );
@@ -2230,7 +2230,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_STROKELINEJOIN(attval))
         {
-            ctmbstr const values[] = {"miter", "round", "bevel", NULL};
+            static ctmbstr const values[] = {"miter", "round", "bevel", NULL};
 
             if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue( doc, node, attval );
@@ -2240,7 +2240,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_COLORINTERPOLATION(attval))
         {
-            ctmbstr const values[] = {"auto", "sRGB", "linearRGB", NULL};
+            static ctmbstr const values[] = {"auto", "sRGB", "linearRGB", NULL};
 
             if (AttrValueIsAmong(attval, values))
                 CheckLowerCaseAttrValue( doc, node, attval );
@@ -2250,7 +2250,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 
         if (attrIsSVG_COLORRENDERING(attval))
         {
-            ctmbstr const values[] = {
+            static ctmbstr const values[] = {
                 "auto", "optimizeSpeed", "optimizeQuality", NULL};
 
             if (AttrValueIsAmong(attval, values))
