@@ -2176,15 +2176,15 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             TY_(ReportAttrError)( doc, node, attval, MISSING_ATTR_VALUE);
             return;
         }
-
         /* all paint attributes support an 'inherit' value */
-        if (AttrValueIs(attval, "inherit"))
+        else if (AttrValueIs(attval, "inherit"))
+        {
             return;
-
+        }
         /* check paint datatypes
         see https://dev.w3.org/SVG/profiles/1.1F2/publish/painting.html#SpecifyingPaint
         */
-        if (attrIsSVG_FILL(attval) || attrIsSVG_STROKE(attval))
+        else if (attrIsSVG_FILL(attval) || attrIsSVG_STROKE(attval))
         {
             /* TODO: support funciri */
             static ctmbstr const values[] = {
@@ -2194,9 +2194,8 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
                 CheckLowerCaseAttrValue(doc, node, attval);
             else
                 CheckColor(doc, node, attval);
-        }
-
-        if (attrIsSVG_FILLRULE(attval))
+        } 
+        else if (attrIsSVG_FILLRULE(attval))
         {
             static ctmbstr const values[] = {"nonzero", "evenodd", NULL};
 
@@ -2205,8 +2204,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             else
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
-
-        if (attrIsSVG_STROKEDASHARRAY(attval))
+        else if (attrIsSVG_STROKEDASHARRAY(attval))
         {
             static ctmbstr const values[] = {"none", NULL};
 
@@ -2217,8 +2215,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
                 /* TODO: process dash arrays */
             }
         }
-
-        if (attrIsSVG_STROKELINECAP(attval))
+        else if (attrIsSVG_STROKELINECAP(attval))
         {
             static ctmbstr const values[] = {"butt", "round", "square", NULL};
 
@@ -2227,8 +2224,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             else
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
-
-        if (attrIsSVG_STROKELINEJOIN(attval))
+        else if (attrIsSVG_STROKELINEJOIN(attval))
         {
             static ctmbstr const values[] = {"miter", "round", "bevel", NULL};
 
@@ -2237,8 +2233,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             else
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
-
-        if (attrIsSVG_COLORINTERPOLATION(attval))
+        else if (attrIsSVG_COLORINTERPOLATION(attval))
         {
             static ctmbstr const values[] = {"auto", "sRGB", "linearRGB", NULL};
 
@@ -2247,8 +2242,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             else
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
-
-        if (attrIsSVG_COLORRENDERING(attval))
+        else if (attrIsSVG_COLORRENDERING(attval))
         {
             static ctmbstr const values[] = {
                 "auto", "optimizeSpeed", "optimizeQuality", NULL};
