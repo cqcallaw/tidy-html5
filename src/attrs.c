@@ -445,7 +445,6 @@ static const Attribute attribute_defs [] =
   { TidyAttr_XMLNSXLINK,                "xmlns:xlink",           CH_URL       },
 
   /* SVG paint attributes (SVG 1.1) */
-  { TidyAttr_COLOR,                    "color",                 CH_SVG        },
   { TidyAttr_FILL,                     "fill",                  CH_SVG        },
   { TidyAttr_FILLRULE,                 "fill-rule",             CH_SVG        },
   { TidyAttr_STROKE,                   "stroke",                CH_SVG        },
