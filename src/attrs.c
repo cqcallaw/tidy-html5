@@ -2177,14 +2177,15 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             return;
         }
         /* all paint attributes support an 'inherit' value */
-        else if (AttrValueIs(attval, "inherit"))
+        if (AttrValueIs(attval, "inherit"))
         {
             return;
         }
+
         /* check paint datatypes
         see https://dev.w3.org/SVG/profiles/1.1F2/publish/painting.html#SpecifyingPaint
         */
-        else if (attrIsSVG_FILL(attval) || attrIsSVG_STROKE(attval))
+        if (attrIsSVG_FILL(attval) || attrIsSVG_STROKE(attval))
         {
             /* TODO: support funciri */
             static ctmbstr const values[] = {
