@@ -374,7 +374,6 @@ Bool TY_(AttributeIsMismatched)(Node* node, AttVal* attval, TidyDocImpl* doc);
 #define attrIsARIA_VALUEMIN(av)         AttrIsId( av,  TidyAttr_ARIA_VALUEMIN  )
 #define attrIsARIA_VALUENOW(av)         AttrIsId( av,  TidyAttr_ARIA_VALUENOW  )
 #define attrIsARIA_VALUETEXT(av)        AttrIsId( av,  TidyAttr_ARIA_VALUETEXT  )
-#define attrIsSVG_COLOR(av)             AttrIsId( av,  TidyAttr_COLOR  )
 #define attrIsSVG_FILL(av)              AttrIsId( av,  TidyAttr_FILL  )
 #define attrIsSVG_FILLRULE(av)          AttrIsId( av,  TidyAttr_FILLRULE  )
 #define attrIsSVG_STROKE(av)            AttrIsId( av,  TidyAttr_STROKE  )
