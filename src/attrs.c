@@ -2159,7 +2159,7 @@ Bool IsSvgPaintAttr(AttVal *attval)
         || attrIsSVG_FILLOPACITY(attval);
 }
 
-/* Check SVG attributes */
+/* Issue #903 - Check SVG attributes */
 void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 {
     if (!nodeIsSVG(node))
