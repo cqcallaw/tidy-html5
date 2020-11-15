@@ -2159,7 +2159,7 @@ Bool IsSvgPaintAttr(AttVal *attval)
         || attrIsSVG_FILLOPACITY(attval);
 }
 
-/* Issue #903 - Check SVG attributes */
+/* Check SVG attributes */
 void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 {
     if (!nodeIsSVG(node))
@@ -2168,6 +2168,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
         return;
     }
 
+    /* Issue #903 - check SVG paint attributes */
     if (IsSvgPaintAttr(attval))
     {
         /* all valid paint attributes have values */
