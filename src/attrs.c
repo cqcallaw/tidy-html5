@@ -449,16 +449,16 @@ static const Attribute attribute_defs [] =
   { TidyAttr_FILLRULE,                 "fill-rule",             CH_SVG        },
   { TidyAttr_STROKE,                   "stroke",                CH_SVG        },
   { TidyAttr_STROKEDASHARRAY,          "stroke-dasharray",      CH_SVG        },
-  { TidyAttr_STROKEDASHOFFSET,         "stroke-dashoffset",     CH_LENGTH     },
+  { TidyAttr_STROKEDASHOFFSET,         "stroke-dashoffset",     CH_SVG        },
   { TidyAttr_STROKELINECAP,            "stroke-linecap",        CH_SVG        },
   { TidyAttr_STROKELINEJOIN,           "stroke-linejoin",       CH_SVG        },
-  { TidyAttr_STROKEMITERLIMIT,         "stroke-miterlimit",     CH_NUMBER     },
-  { TidyAttr_STROKEWIDTH,              "stroke-width",          CH_LENGTH     },
+  { TidyAttr_STROKEMITERLIMIT,         "stroke-miterlimit",     CH_SVG        },
+  { TidyAttr_STROKEWIDTH,              "stroke-width",          CH_SVG        },
   { TidyAttr_COLORINTERPOLATION,       "color-interpolation",   CH_SVG        },
   { TidyAttr_COLORRENDERING,           "color-rendering",       CH_SVG        },
-  { TidyAttr_OPACITY,                  "opacity",               CH_DECIMAL    },
-  { TidyAttr_STROKEOPACITY,            "stroke-opacity",        CH_DECIMAL    },
-  { TidyAttr_FILLOPACITY,              "fill-opacity",          CH_DECIMAL    },
+  { TidyAttr_OPACITY,                  "opacity",               CH_SVG        },
+  { TidyAttr_STROKEOPACITY,            "stroke-opacity",        CH_SVG        },
+  { TidyAttr_FILLOPACITY,              "fill-opacity",          CH_SVG        },
 
   /* this must be the final entry */
   { N_TIDY_ATTRIBS,                    NULL,                     NULL         }
@@ -2164,7 +2164,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 {
     if (!nodeIsSVG(node))
     {
-        TY_(ReportAttrError)( doc, node, attval, ATTRIBUTE_IS_NOT_ALLOWED);
+        TY_(ReportAttrError)(doc, node, attval, ATTRIBUTE_IS_NOT_ALLOWED);
         return;
     }
 
@@ -2173,7 +2173,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
         /* all valid paint attributes have values */
         if (!AttrHasValue(attval))
         {
-            TY_(ReportAttrError)( doc, node, attval, MISSING_ATTR_VALUE);
+            TY_(ReportAttrError)(doc, node, attval, MISSING_ATTR_VALUE);
             return;
         }
         /* all paint attributes support an 'inherit' value */
@@ -2201,47 +2201,59 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             static ctmbstr const values[] = {"nonzero", "evenodd", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
+                TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
         else if (attrIsSVG_STROKEDASHARRAY(attval))
         {
             static ctmbstr const values[] = {"none", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
             {
                 /* TODO: process dash arrays */
             }
+        }
+        else if (attrIsSVG_STROKEDASHOFFSET(attval))
+        {
+            CheckLength(doc, node, attval);
         }
         else if (attrIsSVG_STROKELINECAP(attval))
         {
             static ctmbstr const values[] = {"butt", "round", "square", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
+                TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
         else if (attrIsSVG_STROKELINEJOIN(attval))
         {
             static ctmbstr const values[] = {"miter", "round", "bevel", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
+                TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
+        }
+        else if (attrIsSVG_STROKEMITERLIMIT(attval))
+        {
+            CheckNumber(doc, node, attval);
+        }
+        else if (attrIsSVG_STROKEWIDTH(attval))
+        {
+            CheckLength(doc, node, attval);
         }
         else if (attrIsSVG_COLORINTERPOLATION(attval))
         {
             static ctmbstr const values[] = {"auto", "sRGB", "linearRGB", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
+                TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
         else if (attrIsSVG_COLORRENDERING(attval))
         {
@@ -2249,9 +2261,21 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
                 "auto", "optimizeSpeed", "optimizeQuality", NULL};
 
             if (AttrValueIsAmong(attval, values))
-                CheckLowerCaseAttrValue( doc, node, attval );
+                CheckLowerCaseAttrValue(doc, node, attval);
             else
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
+                TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
+        }
+        else if(attrIsSVG_STROKEOPACITY(attval))
+        {
+            CheckDecimal(doc, node, attval);
+        }
+        else if(attrIsSVG_STROKEOPACITY(attval))
+        {
+            CheckDecimal(doc, node, attval);
+        }
+        else if(attrIsSVG_FILLOPACITY(attval))
+        {
+            CheckDecimal(doc, node, attval);
         }
     }
 }
