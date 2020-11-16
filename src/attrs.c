@@ -2177,7 +2177,8 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             TY_(ReportAttrError)(doc, node, attval, MISSING_ATTR_VALUE);
             return;
         }
-        /* all paint attributes support an 'inherit' value */
+        /* all paint attributes support an 'inherit' value,
+        per https://dev.w3.org/SVG/profiles/1.1F2/publish/painting.html#SpecifyingPaint */
         if (AttrValueIs(attval, "inherit"))
         {
             return;
