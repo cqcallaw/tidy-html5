@@ -2140,7 +2140,7 @@ void CheckDecimal( TidyDocImpl* doc, Node *node, AttVal *attval)
     }
 }
 
-Bool IsSvgPaintAttr(AttVal *attval)
+static Bool IsSvgPaintAttr(AttVal *attval)
 {
     return attrIsCOLOR(attval)
         || attrIsSVG_FILL(attval)
