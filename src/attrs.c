@@ -2267,7 +2267,7 @@ void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
             else
                 TY_(ReportAttrError)(doc, node, attval, BAD_ATTRIBUTE_VALUE);
         }
-        else if(attrIsSVG_STROKEOPACITY(attval))
+        else if(attrIsSVG_OPACITY(attval))
         {
             CheckDecimal(doc, node, attval);
         }
