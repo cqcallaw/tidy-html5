@@ -2108,7 +2108,7 @@ void CheckType( TidyDocImpl* doc, Node *node, AttVal *attval)
     return;
 }
 
-void CheckDecimal( TidyDocImpl* doc, Node *node, AttVal *attval)
+static void CheckDecimal( TidyDocImpl* doc, Node *node, AttVal *attval)
 {
     tmbstr p;
     Bool hasPoint = no;
@@ -2160,7 +2160,7 @@ static Bool IsSvgPaintAttr(AttVal *attval)
 }
 
 /* Check SVG attributes */
-void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
+static void CheckSvgAttr( TidyDocImpl* doc, Node *node, AttVal *attval)
 {
     if (!nodeIsSVG(node))
     {
