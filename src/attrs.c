@@ -1835,17 +1835,11 @@ void CheckLength( TidyDocImpl* doc, Node *node, AttVal *attval)
         Bool percentFound = no;
         while (*p)
         {
-            if (percentFound)
-            {
-                /* characters trailing the % symbol are an error */
-                TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
-                break;
-            }
-            else if (*p == '%')
+            if (*p == '%')
             {
                 percentFound = yes;
             }
-            else if (!TY_(IsDigit)(*p))
+            else if (percentFound || !TY_(IsDigit)(*p))
             {
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
                 break;
