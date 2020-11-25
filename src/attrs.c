@@ -584,18 +584,15 @@ static const struct _colors colors[] =
     { NULL,      NULL      }
 };
 
-static const struct _colors css_colors[] =
+static const struct _colors extended_colors[] =
 {
     { "aliceblue", "#f0f8ff" },
     { "antiquewhite", "#faebd7" },
-    { "aqua", "#00ffff" },
     { "aquamarine", "#7fffd4" },
     { "azure", "#f0ffff" },
     { "beige", "#f5f5dc" },
     { "bisque", "#ffe4c4" },
-    { "black", "#000000" },
     { "blanchedalmond", "#ffebcd" },
-    { "blue", "#0000ff" },
     { "blueviolet", "#8a2be2" },
     { "brown", "#a52a2a" },
     { "burlywood", "#deb887" },
@@ -634,13 +631,10 @@ static const struct _colors css_colors[] =
     { "firebrick", "#b22222" },
     { "floralwhite", "#fffaf0" },
     { "forestgreen", "#228b22" },
-    { "fuchsia", "#ff00ff" },
     { "gainsboro", "#dcdcdc" },
     { "ghostwhite", "#f8f8ff" },
     { "gold", "#ffd700" },
     { "goldenrod", "#daa520" },
-    { "gray", "#808080" },
-    { "green", "#008000" },
     { "greenyellow", "#adff2f" },
     { "grey", "#808080" },
     { "honeydew", "#f0fff0" },
@@ -668,11 +662,9 @@ static const struct _colors css_colors[] =
     { "lightslategrey", "#778899" },
     { "lightsteelblue", "#b0c4de" },
     { "lightyellow", "#ffffe0" },
-    { "lime", "#00ff00" },
     { "limegreen", "#32cd32" },
     { "linen", "#faf0e6" },
     { "magenta", "#ff00ff" },
-    { "maroon", "#800000" },
     { "mediumaquamarine", "#66cdaa" },
     { "mediumblue", "#0000cd" },
     { "mediumorchid", "#ba55d3" },
@@ -687,9 +679,7 @@ static const struct _colors css_colors[] =
     { "mistyrose", "#ffe4e1" },
     { "moccasin", "#ffe4b5" },
     { "navajowhite", "#ffdead" },
-    { "navy", "#000080" },
     { "oldlace", "#fdf5e6" },
-    { "olive", "#808000" },
     { "olivedrab", "#6b8e23" },
     { "orange", "#ffa500" },
     { "orangered", "#ff4500" },
@@ -704,9 +694,7 @@ static const struct _colors css_colors[] =
     { "pink", "#ffc0cb" },
     { "plum", "#dda0dd" },
     { "powderblue", "#b0e0e6" },
-    { "purple", "#800080" },
     { "rebeccapurple", "#663399" },
-    { "red", "#ff0000" },
     { "rosybrown", "#bc8f8f" },
     { "royalblue", "#4169e1" },
     { "saddlebrown", "#8b4513" },
@@ -715,7 +703,6 @@ static const struct _colors css_colors[] =
     { "seagreen", "#2e8b57" },
     { "seashell", "#fff5ee" },
     { "sienna", "#a0522d" },
-    { "silver", "#c0c0c0" },
     { "skyblue", "#87ceeb" },
     { "slateblue", "#6a5acd" },
     { "slategray", "#708090" },
@@ -724,15 +711,12 @@ static const struct _colors css_colors[] =
     { "springgreen", "#00ff7f" },
     { "steelblue", "#4682b4" },
     { "tan", "#d2b48c" },
-    { "teal", "#008080" },
     { "thistle", "#d8bfd8" },
     { "tomato", "#ff6347" },
     { "turquoise", "#40e0d0" },
     { "violet", "#ee82ee" },
     { "wheat", "#f5deb3" },
-    { "white", "#ffffff" },
     { "whitesmoke", "#f5f5f5" },
-    { "yellow", "#ffff00" },
     { "yellowgreen", "#9acd32" },
     { NULL, NULL }
 };
@@ -741,11 +725,14 @@ static ctmbstr GetColorCode(ctmbstr name, Bool use_css_colors)
 {
     uint i;
 
-    const struct _colors* subject = use_css_colors ? css_colors : colors;
-    
-    for (i = 0; subject[i].name; ++i)
-        if (TY_(tmbstrcasecmp)(name, subject[i].name) == 0)
-            return subject[i].hex;
+    for (i = 0; colors[i].name; ++i)
+        if (TY_(tmbstrcasecmp)(name, colors[i].name) == 0)
+            return colors[i].hex;
+
+    if (use_css_colors)
+        for (i = 0; extended_colors[i].name; ++i)
+            if (TY_(tmbstrcasecmp)(name, extended_colors[i].name) == 0)
+                return extended_colors[i].hex;
 
     return NULL;
 }
@@ -754,10 +741,14 @@ static ctmbstr GetColorName(ctmbstr code, Bool use_css_colors)
 {
     uint i;
 
-    const struct _colors* subject = use_css_colors ? css_colors : colors;
-    for (i = 0; subject[i].name; ++i)
-        if (TY_(tmbstrcasecmp)(code, subject[i].hex) == 0)
-            return subject[i].name;
+    for (i = 0; colors[i].name; ++i)
+        if (TY_(tmbstrcasecmp)(code, colors[i].hex) == 0)
+            return colors[i].name;
+
+    if (use_css_colors)
+        for (i = 0; extended_colors[i].name; ++i)
+            if (TY_(tmbstrcasecmp)(code, extended_colors[i].hex) == 0)
+                return extended_colors[i].name;
 
     return NULL;
 }
